@@ -29,10 +29,14 @@ class UsersController < ApplicationController
         @user.destroy
     end 
 
+    def login
+        render json: {text: "hello world"}, status: :ok
+    end
+
     private
 
     def user_params
         params.permit(:username, :password)
     end 
 end
-end
+
