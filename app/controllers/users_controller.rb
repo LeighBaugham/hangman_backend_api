@@ -29,10 +29,20 @@ class UsersController < ApplicationController
         @user.destroy
     end 
 
+    def login
+        @user = User.find_by(name: params[:name])
+        if @user && @user.authenticate(params[:password])
+            token = JWT.encode(@user, 's3cr3t', 'HS512')
+            render json: {token: token, user: @user.name }, status: :ok
+        else 
+            render json: {error: "User name or password not valid"}, status: :unauthorized
+        end
+    end
+
     private
 
     def user_params
-        params.permit(:username, :password)
+        params.permit(:name, :password)
     end 
 end
-end
+
