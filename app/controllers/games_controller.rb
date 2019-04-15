@@ -31,7 +31,7 @@ class GamesController < ApplicationController
     private
 
     def game_params
-        params.permit(:word, :definition, :score)
+        params.require(:game).permit(:word, :definition, :score)
     end 
     
 end 
