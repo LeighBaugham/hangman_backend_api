@@ -15,7 +15,10 @@ class GamesController < ApplicationController
         @game = Game.create(full_params)
 
         if @game
-            render json: @game, status: :ok
+            @user = User.find(user_id)
+            games = @user.games
+            score = @user.games.sum(:score)
+            render json: {total_score: score, games: games.map(&:without_user_id)}, status: :ok
         else
             render json: {errors: @game.errors.full_messages},
             status: :unprocessable_entity
