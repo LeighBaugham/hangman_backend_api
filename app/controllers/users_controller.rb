@@ -14,7 +14,7 @@ class UsersController < ApplicationController
         @user = User.create(user_params)
         if @user
             # render json: @user, status: :ok
-            token = JWT.encode(@user, 's3cr3t', 'HS512')
+            token = JWT.encode(@user.id.to_s, 's3cr3t', 'HS512')
             render json: {token: token, user: @user.name }, status: :ok
         else
             render json: {errors: @user.errors.full_messages},
