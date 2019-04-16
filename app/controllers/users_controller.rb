@@ -42,6 +42,13 @@ class UsersController < ApplicationController
         end
     end
 
+    def score
+        user_id = JWT.decode(params[:token],'s3cr3t',true,{algorithm: 'HS512'})[0]
+        @user = User.find(user_id)
+        score = @user.games.sum(:score)
+        render json: {total_score: score}
+    end
+
     private
 
     def user_params
