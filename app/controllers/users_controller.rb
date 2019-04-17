@@ -3,6 +3,13 @@ class UsersController < ApplicationController
         @users = User.all
         render json: @users, status: :ok
     end
+    
+    def leaders
+        top_users = User.order(total_score: :desc).first(10)
+        top_ten_scores = top_users.map{|user| {name: user.name, total_score: user.total_score}}
+        #is there ever an error we should render here?
+        render json: top_ten_scores, status: :ok
+    end
 
     def show 
         @user = User.find(params[:id])

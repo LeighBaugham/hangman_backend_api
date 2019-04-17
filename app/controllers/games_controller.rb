@@ -17,7 +17,7 @@ class GamesController < ApplicationController
         if @game
             @user = User.find(user_id)
             games = @user.games
-            score = @user.games.sum(:score)
+            score = @user.total_score
             render json: {total_score: score, games: games.map(&:without_user_id)}, status: :ok
         else
             render json: {errors: @game.errors.full_messages},
