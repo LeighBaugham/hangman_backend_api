@@ -5,7 +5,8 @@ class UsersController < ApplicationController
     end
     
     def leaders
-        top_users = User.order(total_score: :desc).first(10)
+        #this isn't very effiecient, but it just needs to work right now
+        top_users = User.all.sort_by(&:total_score).reverse.first(10)
         top_ten_scores = top_users.map{|user| {name: user.name, total_score: user.total_score}}
         #is there ever an error we should render here?
         render json: top_ten_scores, status: :ok
